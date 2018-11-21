@@ -1,0 +1,150 @@
+body{
+    margin: 0;
+    font-family: sans-serif;
+
+}
+
+header,footer,aside{
+    display: block;
+}
+
+h1{
+    color: white;
+    text-align: center;
+}
+
+label{
+
+    display: block; 
+}
+
+fieldset{
+    border: 0px dotted red;
+    width: 400px;
+    margin: 0 auto;
+}
+
+input,select{
+    width: 400px;
+    height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 14px;
+
+}
+
+select{
+    line-height:30px;
+    background:#f4f4f4;
+}
+
+button{
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 2px;
+    /* background: #ff0033; */
+    background: #332a2c;
+    color: #ffffff;
+    float: right;
+    width: 100px;
+}
+
+table{
+
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+th{
+    background: #ff9999;
+}
+
+th,td{
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.container{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.headerbar{
+    width: 1000px;
+    float: left;
+}
+
+.headerbar.top{
+    background: #003333;
+    min-height: 100px;
+
+}
+
+.headerbar.bottom{
+    background: #333300;
+    min-height: 60px;
+}
+
+.leftbar{
+    width: 500px;
+    background: #009999;
+    min-height: 600px;
+    float: left;
+}
+
+.rightbar{
+    width: 480px;
+    background: #ccccff;
+    min-height: 580px;
+    float: left;
+    padding: 10px;
+
+}
+
+
+
+/* Modal CSS */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.float-left {
+    float: left;
+}
+

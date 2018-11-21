@@ -1,0 +1,197 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="mystyle.css" rel="stylesheet"/>
+        <script type="text/javascript">
+
+            var studentsArray = [];
+            var selectedIndex = -1;
+            function init() {
+                document.getElementById("tablerows").innerHTML = "";
+                if (localStorage.studentsRecord) {
+                    studentsArray = JSON.parse(localStorage.studentsRecord);
+                    for (var i = 0; i < studentsArray.length; i++) {
+                        prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].rollnum, studentsArray[i].subject);
+                    }
+                }
+            }
+
+            function onRegisterPressed() {
+
+                var firstName = document.getElementById("firstname").value;
+                var lastName = document.getElementById("lastname").value;
+                var rollNum = document.getElementById("rollnum").value;
+                var subject = document.getElementById("subject").value;
+                var stuObj = {firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject};
+                if (selectedIndex === -1) {
+                    studentsArray.push(stuObj);
+                } else {
+                    studentsArray.splice(selectedIndex, 1, stuObj);
+                }
+
+                localStorage.studentsRecord = JSON.stringify(studentsArray);
+                init();
+                //onClarPressed();
+
+            }
+
+            function prepareTableCell(index, firstName, lastName, rollNum, subject) {
+                var table = document.getElementById("tablerows");
+                var row = table.insertRow();
+                var firstNameCell = row.insertCell(0);
+                var lastNameCell = row.insertCell(1);
+                var rollNumCell = row.insertCell(2);
+                var subjectCell = row.insertCell(3);
+                var actionCell = row.insertCell(4);
+
+                firstNameCell.innerHTML = firstName;
+                lastNameCell.innerHTML = lastName;
+                rollNumCell.innerHTML = rollNum;
+                subjectCell.innerHTML = subject;
+                actionCell.innerHTML = '<button onclick="onEditPressed(' + index + ')">Edit</button><br/><button onclick="deleteTableRow(' + index + ')">Delete</button>';
+
+            }
+
+            function deleteTableRow(index) {
+                /*
+                 var table = document.getElementById("regtable");
+                 table.deleteRow(index+1);
+                 */
+                studentsArray.splice(index, 1);
+                localStorage.studentsRecord = JSON.stringify(studentsArray);
+                init();
+            }
+
+            function onClarPressed() {
+
+                // Get the modal
+                // var modalnew = document.getElementById('myModal');
+
+                // modalnew.style.display = "block";
+
+                selectedIndex = -1;
+                document.getElementById("firstname").value = "";
+                document.getElementById("lastname").value = "";
+                document.getElementById("rollnum").value = "";
+                document.getElementById("subject").value = "Math";
+                document.getElementById("modalbtn").innerHTML = "Register";
+
+            }
+            
+            function onEditPressed(index) {
+
+                modal.style.display = "block";
+
+                selectedIndex = index;
+                var stuObj = studentsArray[index];
+                document.getElementById("firstname").value = stuObj.firstname;
+                document.getElementById("lastname").value = stuObj.lastname;
+                document.getElementById("rollnum").value = stuObj.rollnum;
+                document.getElementById("subject").value = stuObj.subject;
+                document.getElementById("modalbtn").innerHTML = "Update";
+                
+            }
+         </script>
+    </head>
+    <body onload="init()">
+        <div class="container">
+            <header class="headerbar top"><h1>A simple CRUD Application</h1></header>
+            <aside class="leftbar">
+                    <!-- <h2>Modal Example</h2> -->
+
+                    <!-- Trigger/Open The Modal -->
+                    <h2>Click here to Register</h1>
+                    <button id="submit" class="float-left">Register</button>
+                <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form>
+            <div class="container">
+              <h1>Register</h1>
+              <p>Please fill in this form to create an account.</p>
+              <hr>
+
+              <!-- <label for="name"><b>Name</b></label>
+              <input type="text" id="item" placeholder="Enter Name" name="name" required>
+
+              <br>
+
+              <label for="email"><b>Email</b></label>
+              <input type="text" placeholder="Enter Email" name="email" required>
+              
+              <hr>
+              <button type="submit" class="registerbtn" onclick="myFunction()">Register</button> -->
+            
+                <div>
+                  <fieldset>
+                      <label for="firstname"><span>First Name</span></label>
+                      <input type="text" placeholder="Enter first name" id="firstname" required>
+                  </fieldset>
+                  <fieldset>
+                      <label for="lastname">Last Name</label>
+                      <input type="text" placeholder="enter last name" id="lastname" required>
+                  </fieldset>
+                  <fieldset>
+                      <label for="rollnum">Roll Number</label>
+                      <input type="text" placeholder="enter Roll number" id="rollnum" required>
+                  </fieldset>
+                  <fieldset>
+                      <label for="subject">Subject</label>
+                      <select id="subject">
+                          <option value="Math">Math</option>
+                          <option value="Physics">Physics</option>
+                          <option value="Chemistry">Chemistry</option>
+                          <option value="English">English</option>
+                          <option value="Tamil">Tamil</option>
+                      </select>
+                  </fieldset>
+                  <fieldset>
+                      <label for="modalbtn"> </label>
+                      <button id="modalbtn" type="submit" onclick="onRegisterPressed()">Submit</button>
+                      <!-- <label for="clar"> </label>
+                      <button id="clar" onclick="onClarPressed()">Clear</button> -->
+                  </fieldset>
+              </div>
+            
+            
+            
+            </div>
+            
+          </form>
+      </div>
+
+    </div>
+
+
+            </aside>
+
+            <aside class="rightbar">
+
+                <table id="regtable">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Roll Number</th>
+                            <th>Subject</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablerows">
+
+                    </tbody>
+                </table>
+
+            </aside>
+            <footer class="headerbar bottom"></footer>
+        </div>
+
+
+        <script src='main.js'></script>
+    </body>
+</html>
