@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Phonebook</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="mystyle.css" rel="stylesheet"/>
@@ -8,23 +8,106 @@
 
             var studentsArray = [];
             var selectedIndex = -1;
+
+            var startPosition=0;
+            var endPosition=5;
+
             function init() {
                 document.getElementById("tablerows").innerHTML = "";
                 if (localStorage.studentsRecord) {
                     studentsArray = JSON.parse(localStorage.studentsRecord);
-                    for (var i = 0; i < studentsArray.length; i++) {
-                        prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].rollnum, studentsArray[i].subject);
+                    // for (var i = 0; i < studentsArray.length; i++) {
+                    //     prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].phonenum, studentsArray[i].address);
+                    // }
+                    if(studentsArray.length<5) {
+                        for (var i = 0; i < studentsArray.length; i++) {
+                            prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].phonenum, studentsArray[i].address);
+                        }
+                    } 
+                    else {
+                        for (var i = startPosition; i < endPosition; i++) {
+                            prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].phonenum, studentsArray[i].address);
+                        }
+                        // startPosition+=5;
+                        // if(endPosition+5<=studentsArray.length){
+                        //     endPosition+=5;
+                        // }
+                        // else {
+                        //     endPosition = studentsArray.length;
+                        // }
+                        
                     }
+                    
                 }
+            }
+
+            function onNextPressed() {
+                if(endPosition===studentsArray.length){
+                    return;
+                }
+                
+                var rowCount = document.getElementById('regtable').rows.length;
+                console.log(rowCount);
+                var table = document.getElementById("tablerows");
+                for(var j = 1; j<rowCount; j++) {
+                    table.deleteRow(0);
+                }
+                console.log(startPosition);
+                console.log(endPosition);
+
+                startPosition+=5;
+                if(endPosition+5<=studentsArray.length){
+                    endPosition+=5;
+                }
+                else {
+                    endPosition = studentsArray.length;
+                }
+                for (var i = startPosition; i < endPosition; i++) {
+                    prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].phonenum, studentsArray[i].address);
+                    
+                }
+                //endPosition+=5;
+                
+            }
+
+            function onPreviousPressed() {
+                console.log(startPosition);
+
+                if(startPosition===0){
+                    return;
+                }
+
+                var rowCount = document.getElementById('regtable').rows.length;
+                console.log(rowCount);
+                var table = document.getElementById("tablerows");
+                for(var j = 1; j<rowCount; j++) {
+                    table.deleteRow(0);
+                }
+                startPosition-=5;
+               
+                if(endPosition%5 !=0){
+                    endPosition = endPosition-(endPosition%5)
+                }
+                else{
+                    endPosition-=5;
+                }
+                
+                
+                
+                for (var i = startPosition; i < endPosition; i++) {
+                    prepareTableCell(i, studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].phonenum, studentsArray[i].address);
+                    
+                }
+
             }
 
             function onRegisterPressed() {
 
                 var firstName = document.getElementById("firstname").value;
                 var lastName = document.getElementById("lastname").value;
-                var rollNum = document.getElementById("rollnum").value;
-                var subject = document.getElementById("subject").value;
-                var stuObj = {firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject};
+                var phoneNum = document.getElementById("phonenum").value;
+                var address = document.getElementById("address").value;
+                var stuObj = {firstname: firstName, lastname: lastName, phonenum: phoneNum, address: address};
                 if (selectedIndex === -1) {
                     studentsArray.push(stuObj);
                 } else {
@@ -37,19 +120,22 @@
 
             }
 
-            function prepareTableCell(index, firstName, lastName, rollNum, subject) {
+            function prepareTableCell(index, firstName, lastName, phoneNum, address) {
+                
+
                 var table = document.getElementById("tablerows");
+
                 var row = table.insertRow();
                 var firstNameCell = row.insertCell(0);
                 var lastNameCell = row.insertCell(1);
-                var rollNumCell = row.insertCell(2);
-                var subjectCell = row.insertCell(3);
+                var phoneNumCell = row.insertCell(2);
+                var addressCell = row.insertCell(3);
                 var actionCell = row.insertCell(4);
 
                 firstNameCell.innerHTML = firstName;
                 lastNameCell.innerHTML = lastName;
-                rollNumCell.innerHTML = rollNum;
-                subjectCell.innerHTML = subject;
+                phoneNumCell.innerHTML = phoneNum;
+                addressCell.innerHTML = address;
                 actionCell.innerHTML = '<button onclick="onEditPressed(' + index + ')">Edit</button><br/><button onclick="deleteTableRow(' + index + ')">Delete</button>';
 
             }
@@ -74,8 +160,8 @@
                 selectedIndex = -1;
                 document.getElementById("firstname").value = "";
                 document.getElementById("lastname").value = "";
-                document.getElementById("rollnum").value = "";
-                document.getElementById("subject").value = "Math";
+                document.getElementById("phonenum").value = "";
+                document.getElementById("address").value = "Math";
                 document.getElementById("modalbtn").innerHTML = "Register";
 
             }
@@ -88,8 +174,8 @@
                 var stuObj = studentsArray[index];
                 document.getElementById("firstname").value = stuObj.firstname;
                 document.getElementById("lastname").value = stuObj.lastname;
-                document.getElementById("rollnum").value = stuObj.rollnum;
-                document.getElementById("subject").value = stuObj.subject;
+                document.getElementById("phonenum").value = stuObj.phonenum;
+                document.getElementById("address").value = stuObj.address;
                 document.getElementById("modalbtn").innerHTML = "Update";
                 
             }
@@ -97,13 +183,13 @@
     </head>
     <body onload="init()">
         <div class="container">
-            <header class="headerbar top"><h1>A simple CRUD Application</h1></header>
+            <header class="headerbar top"><h1>Phonebook</h1></header>
             <aside class="leftbar">
                     <!-- <h2>Modal Example</h2> -->
 
                     <!-- Trigger/Open The Modal -->
-                    <h2>Click here to Register</h1>
-                    <button id="submit" class="float-left">Register</button>
+                    <h2>Click here to Add Contact</h1>
+                    <button id="submit" class="float-left">Add Contact</button>
                 <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -113,7 +199,7 @@
         <form>
             <div class="container">
               <h1>Register</h1>
-              <p>Please fill in this form to create an account.</p>
+              <p>Please fill in this form to add a contact.</p>
               <hr>
 
               <!-- <label for="name"><b>Name</b></label>
@@ -137,18 +223,19 @@
                       <input type="text" placeholder="enter last name" id="lastname" required>
                   </fieldset>
                   <fieldset>
-                      <label for="rollnum">Roll Number</label>
-                      <input type="text" placeholder="enter Roll number" id="rollnum" required>
+                      <label for="phonenum">Phone Number</label>
+                      <input type="text" placeholder="enter phone number" id="phonenum" required>
                   </fieldset>
                   <fieldset>
-                      <label for="subject">Subject</label>
-                      <select id="subject">
+                      <label for="address">Address</label>
+                      <!-- <select id="address">
                           <option value="Math">Math</option>
                           <option value="Physics">Physics</option>
                           <option value="Chemistry">Chemistry</option>
                           <option value="English">English</option>
                           <option value="Tamil">Tamil</option>
-                      </select>
+                      </select> -->
+                      <input type="text" placeholder="Enter address" id="address" required>
                   </fieldset>
                   <fieldset>
                       <label for="modalbtn"> </label>
@@ -177,8 +264,8 @@
                         <tr>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Roll Number</th>
-                            <th>Subject</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -186,6 +273,9 @@
 
                     </tbody>
                 </table>
+
+                <button id="nextbtn" onclick="onNextPressed()">Next</button>
+                <button id="previousbtn" onclick="onPreviousPressed()">Previous</button>
 
             </aside>
             <footer class="headerbar bottom"></footer>

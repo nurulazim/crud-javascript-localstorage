@@ -17,8 +17,8 @@ span.onclick = function() {
     selectedIndex = -1;
                 document.getElementById("firstname").value = "";
                 document.getElementById("lastname").value = "";
-                document.getElementById("rollnum").value = "";
-                document.getElementById("subject").value = "Math";
+                document.getElementById("phonenum").value = "";
+                document.getElementById("address").value = "";
                 document.getElementById("modalbtn").innerHTML = "Register";
 
                 modal.style.display = "none";
@@ -32,8 +32,8 @@ window.onclick = function(event) {
         selectedIndex = -1;
                 document.getElementById("firstname").value = "";
                 document.getElementById("lastname").value = "";
-                document.getElementById("rollnum").value = "";
-                document.getElementById("subject").value = "Math";
+                document.getElementById("phonenum").value = "";
+                document.getElementById("address").value = "";
                 document.getElementById("modalbtn").innerHTML = "Register";
 
     }
